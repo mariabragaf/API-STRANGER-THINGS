@@ -6,14 +6,31 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cls && nodemon server.js"
+    "dev": "cls && nodemon server.js",
+    "start": "node server.js"
   },
-  "keywords": ["SENAI", "Sranger Things", "API", "DS", "BACKEND", "Hawkins"],
+  "keywords": [
+    "SENAI",
+    "Sranger Things",
+    "API",
+    "DS",
+    "BACKEND",
+    "Hawkins"
+  ],
   "author": "maria eduarda",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "nodemon": "^3.1.10"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariabragaf/API-STRANGER-THINGS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mariabragaf/API-STRANGER-THINGS/issues"
+  },
+  "homepage": "https://github.com/mariabragaf/API-STRANGER-THINGS#readme"
 }
