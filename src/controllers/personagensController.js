@@ -147,7 +147,7 @@ export const remove = (req, res) => {
         });
     }
 
-    const personagemFiltrado = personagens.filter(p => p.id !== id);
+    const personagemFiltrado = personagens.filter(p => p.id !== idParaApagar);
     console.log(personagemFiltrado)
 
     personagens.splice(0, personagens.length, ...personagemFiltrado);
