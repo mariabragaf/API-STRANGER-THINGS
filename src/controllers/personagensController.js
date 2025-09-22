@@ -31,36 +31,31 @@ export const create = (req, res) => {
         });
     }
 
-     // 🧠 Regra 1: Nome com no mínimo 2 caracteres
-    if (nome.trim().length < 2) {
-        return res.status(400).json({ message: "O nome deve ter no mínimo 2 letras. ✏️" });
-    }
-
-     // 🧠 Regra 2: Idade entre 10 e 100
+     // 🧠 Regra 1: Idade entre 10 e 100
     if (idade < 10 || idade > 100) {
         return res.status(400).json({ message: "A idade deve estar entre 10 e 100 anos. ⏳" });
     }
 
-     // 🧠 Regra 3: 'vivo' deve ser booleano
+     // 🧠 Regra 2: 'vivo' deve ser booleano
     if (typeof vivo !== "boolean") {
         return res.status(400).json({ message: "'vivo' deve ser true ou false. ✅❌" });
     }
 
-     // 🧠 Regra 4: Se estiver no Mundo Invertido, não pode estar vivo
+     // 🧠 Regra 3: Se estiver no Mundo Invertido, não pode estar vivo
     if (localizacaoAtual.toLowerCase() === "mundo invertido" && vivo === true) {
         return res.status(400).json({
             message: "Personagens no Mundo Invertido não podem estar vivos! 🌑👻"
         });
     }
 
-    // 🧠 Regra 5: Se estiver no grupo 'Amigos da Eleven', deve estar vivo
+    // 🧠 Regra 4: Se estiver no grupo 'Amigos da Eleven', deve estar vivo
     if (grupo.toLowerCase() === "amigos da eleven" && vivo === false) {
         return res.status(400).json({
             message: "Personagens do grupo 'Amigos da Eleven' devem estar vivos! 🧇✨"
         });
     }
 
-     // 🧠 Regra 6: Só pode existir UM Vecna
+     // 🧠 Regra 5: Só pode existir UM Vecna
     const vecnaExiste = personagens.some(p => p.nome.toLowerCase() === "vecna");
     if (nome.toLowerCase() === "vecna" && vecnaExiste) {
         return res.status(400).json({
@@ -131,19 +126,34 @@ export const update = (req, res) => {
 };
 
 export const remove = (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = personagens.findIndex(p => p.id === id);
+    const { id } = req.params
 
-    if (index === -1) {
-        return res.status(404).json({
-            message: "Personagem não encontrado para deletar! 🕹️"
+    if (isNaN(id)) {
+        return res.status(400).json({
+            success: false,
+            message: "O id deve ser válido"
         });
     }
 
-  personagens.splice(index, 1);
+    const idParaApagar = parseInt(id);
 
-  res.status(200).json({
-    message: "Personagem removido com sucesso! 🗑️"
-  });
+    const personagemParaRemover = personagens.find(p => p.id === idParaApagar);
+    console.log(personagemParaRemover)
 
+    if (!personagemParaRemover) {
+        return res.status(404).json({
+            success: false,
+            message: "Personagem id não existe"
+        });
+    }
+
+    const personagemFiltrado = personagens.filter(p => p.id !== id);
+    console.log(personagemFiltrado)
+
+    personagens.splice(0, personagens.length, ...personagemFiltrado);
+
+    return res.status(200).json({
+        success: true,
+        message: "O personagem foi removido com sucesso! 🗑️"
+    });
 };
